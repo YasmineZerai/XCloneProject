@@ -10,18 +10,12 @@ export const createCommentController = async (req: Request, res: Response) => {
   const { postId } = req.params;
   const userId = req.body.loggedUser.userId;
   const body = { comment: req.body.comment, commentedBy: userId };
-  const comment = await createCommentService(body, postId);
-  if (comment) {
-    res.status(200).json({
-      sucess: true,
-      message: "comment created successfully",
-      payload: { comment },
-    });
-  } else
-    res.status(400).json({
-      sucess: false,
-      message: "post or user not found",
-    });
+  const result = await createCommentService(body, postId);
+  res.status(result.status).json({
+    success: result.success,
+    message: result.message,
+    payload: result.payload,
+  });
 };
 export const deleteCommentController = async (req: Request, res: Response) => {
   const { postId, commentId } = req.params;

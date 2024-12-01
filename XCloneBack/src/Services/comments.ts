@@ -1,3 +1,4 @@
+import { findBlock } from "../Database/blocks";
 import {
   createComment,
   deleteComment,
@@ -19,15 +20,28 @@ type updateCommentArgs = {
 };
 export async function createCommentService(
   args: createCommentArgs,
-  id: string
+  postId: string
 ) {
-  const user = await getUserById(args.commentedBy);
-  const post = await getPostById(id);
-  if (user && post) {
-    const newComment = { ...args, commentedOn: id };
-    return await createComment(newComment);
-  }
-  return null;
+  if (args.comment === "")
+    return { status: 400, success: false, message: "Comment cannot be blank." };
+  const existingPost = await getPostById(postId);
+  if (!existingPost)
+    return { status: 404, success: false, message: "post not found" };
+  const targetUserId = existingPost.postedBy as string;
+  const existingBlock = await findBlock(targetUserId, args.commentedBy);
+  if (existingBlock)
+    return { status: 403, success: false, message: "user blocked" };
+  const comment = await createComment({
+    comment: args.comment,
+    commentedBy: args.commentedBy,
+    commentedOn: postId,
+  });
+  return {
+    status: 201,
+    success: true,
+    message: "comment created successfully",
+    payload: { comment },
+  };
 }
 export async function deleteCommentService(
   postId: string,
