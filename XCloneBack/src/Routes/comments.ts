@@ -32,7 +32,6 @@ export function configureComments(app: Application) {
       })
     ),
     authMiddleware,
-    checkIfBlock(extractTargetUserFromPost),
     createCommentController,
     errorMiddleware,
   ]); // jawha behi (reste le probleme d'un utilisateur bloqué)
@@ -54,7 +53,6 @@ export function configureComments(app: Application) {
       })
     ),
     authMiddleware,
-    checkIfBlock(extractTargetUserFromPost),
     deleteCommentController,
     errorMiddleware,
   ]); // jawha behi
@@ -81,7 +79,6 @@ export function configureComments(app: Application) {
       })
     ),
     authMiddleware,
-    checkIfBlock(extractTargetUserFromPost),
     updateCommentController,
     errorMiddleware,
   ]); //jawha behi
@@ -98,7 +95,6 @@ export function configureComments(app: Application) {
       })
     ),
     authMiddleware,
-    checkIfBlock(extractTargetUserFromPost),
     getAllCommentsController,
     errorMiddleware,
   ]);
