@@ -21,8 +21,21 @@ export function configureBlocks(app: Application) {
       })
     ),
     authMiddleware,
-    checkIfBlock(extractTargetUserFromParams),
+
     blockUserController,
-    errorMiddleware,
+  ]);
+  app.delete("/users/:userId/blocks", [
+    validation(
+      z.object({
+        params: z.object({
+          userId: z
+            .string()
+            .refine((id) => mongoose.Types.ObjectId.isValid(id), {
+              message: "invalid user id",
+            }),
+        }),
+      })
+    ),
+    authMiddleware,
   ]);
 }

@@ -42,7 +42,7 @@ export default function configureUsers(app: Application) {
     authMiddleware,
     getUserController,
   ]); // verifier bloquage
-  app.delete("/users", [authMiddleware, deleteUserController, errorMiddleware]); // jawha behi
+  app.delete("/users", [authMiddleware, deleteUserController]); // jawha behi
   app.put("/users", [
     validation(
       z.object({

@@ -31,7 +31,7 @@ export default function configurePosts(app: Application) {
     authMiddleware,
     createPostController,
   ]); //jawha behi
-  app.get("/posts", [authMiddleware, listPostsController, errorMiddleware]); //a traiter quels posts fel query
+  app.get("/posts", [authMiddleware, listPostsController]); //a traiter quels posts fel query
   app.get("/posts/:postId", [
     validation(
       z.object({

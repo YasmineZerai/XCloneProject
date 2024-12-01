@@ -25,7 +25,6 @@ export function configureFollows(app: Application) {
     ),
     authMiddleware,
     followUserController,
-    errorMiddleware,
   ]);
   app.delete("/users/:userId/follows", [
     validation(
@@ -41,6 +40,5 @@ export function configureFollows(app: Application) {
     ),
     authMiddleware,
     unfollowUserController,
-    errorMiddleware,
   ]);
 }

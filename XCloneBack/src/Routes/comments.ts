@@ -33,7 +33,6 @@ export function configureComments(app: Application) {
     ),
     authMiddleware,
     createCommentController,
-    errorMiddleware,
   ]); // jawha behi (reste le probleme d'un utilisateur bloqué)
   app.delete("/posts/:postId/comments/:commentId", [
     validation(
@@ -54,7 +53,6 @@ export function configureComments(app: Application) {
     ),
     authMiddleware,
     deleteCommentController,
-    errorMiddleware,
   ]); // jawha behi
   app.put("posts/:postId/comments/:commentId", [
     validation(
@@ -80,7 +78,6 @@ export function configureComments(app: Application) {
     ),
     authMiddleware,
     updateCommentController,
-    errorMiddleware,
   ]); //jawha behi
   app.get("/posts/:postId/comments", [
     validation(
@@ -96,6 +93,5 @@ export function configureComments(app: Application) {
     ),
     authMiddleware,
     getAllCommentsController,
-    errorMiddleware,
   ]);
 }
