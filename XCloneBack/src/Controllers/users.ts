@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   createUserService,
   deleteUserService,
+  getUserService,
   listUsersService,
   updateUserService,
 } from "../Services/users";
@@ -26,25 +27,19 @@ export const listUsersController = async (req: Request, res: Response) => {
 };
 export const getUserController = async (req: Request, res: Response) => {
   const { userId } = req.params;
-  const user = await getUserById(userId);
-  if (!user) {
-    res.status(404).json({
-      success: false,
-      message: "no user with this id babes",
-    });
-  } else {
-    res.status(200).json({
-      success: true,
-      message: "user fetched successfully",
-      payload: { user },
-    });
-  }
+  const loggedUser = req.body.loggedUser.userId;
+  const result = await getUserService(userId, loggedUser);
+  res.status(result.status).json({
+    success: result.success,
+    message: result.message,
+    payload: result.payload,
+  });
 };
 export const deleteUserController = async (req: Request, res: Response) => {
   const userId = req.body.loggedUser.userId;
   const result = await deleteUserService(userId);
   if (result.acknowledged === false) {
-    res.status(400).json({
+    res.status(500).json({
       sucess: false,
       message: "operation could not be acknowledged by the database",
     });

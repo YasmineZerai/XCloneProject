@@ -1,8 +1,10 @@
 import { updatePostController } from "../Controllers/posts";
+import { findBlock } from "../Database/blocks";
 import {
   createUser,
   deleteUser,
   getUserByEmail,
+  getUserById,
   listUsers,
   updateUser,
 } from "../Database/users";
@@ -38,9 +40,26 @@ export async function createUserService(args: CreateUserArgs) {
     payload: { userId: newUser._id },
   };
 }
-
+//TODO: handle it depending on the query
 export async function listUsersService() {
   return await listUsers();
+}
+export async function getUserService(userId: string, loggedUser: string) {
+  const user = await getUserById(userId);
+  if (!user) return { success: false, status: 404, message: "user not found" };
+  const existingBlock = await findBlock(userId, loggedUser);
+  if (existingBlock)
+    return {
+      success: false,
+      status: 403,
+      message: "cannot get user, user blocked",
+    };
+  return {
+    success: true,
+    status: 201,
+    message: "user fetched successfully",
+    payload: { user },
+  };
 }
 export async function deleteUserService(userId: string) {
   return await deleteUser(userId);

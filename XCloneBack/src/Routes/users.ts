@@ -25,7 +25,7 @@ export default function configureUsers(app: Application) {
       })
     ),
     createUserController,
-  ]); // testhakkesh auth
+  ]);
   app.get("/users", listUsersController); // reste a voir fazet l query
   app.get("/users/:userId", [
     validation(
@@ -41,8 +41,8 @@ export default function configureUsers(app: Application) {
     ),
     authMiddleware,
     getUserController,
-  ]); // verifier bloquage
-  app.delete("/users", [authMiddleware, deleteUserController]); // jawha behi
+  ]);
+  app.delete("/users", [authMiddleware, deleteUserController]);
   app.put("/users", [
     validation(
       z.object({
@@ -59,5 +59,5 @@ export default function configureUsers(app: Application) {
     ),
     authMiddleware,
     updateUserController,
-  ]); //jawha behi
+  ]);
 }
