@@ -1,4 +1,4 @@
-import { blockUser } from "../Database/blocks";
+import { blockUser, findBlock } from "../Database/blocks";
 
 export async function blockUserService(userId: string, targetUserId: string) {
   if (userId === targetUserId)
@@ -7,7 +7,13 @@ export async function blockUserService(userId: string, targetUserId: string) {
       status: 400,
       message: "cannot block your account",
     };
-
+  const existingBlock = await findBlock(userId, targetUserId);
+  if (existingBlock)
+    return {
+      success: false,
+      status: 404,
+      message: "user blocked, cannot do this operation",
+    };
   const block = await blockUser(userId, targetUserId);
   return {
     success: true,

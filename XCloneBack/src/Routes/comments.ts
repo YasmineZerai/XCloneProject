@@ -10,7 +10,7 @@ import {
   updateCommentController,
 } from "../Controllers/comments";
 import { errorMiddleware } from "../Middleware/error";
-import { checkIfBlock, extractTargetUserFromPost } from "../Middleware/block";
+
 import { error } from "console";
 
 export function configureComments(app: Application) {

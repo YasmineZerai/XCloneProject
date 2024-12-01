@@ -8,8 +8,6 @@ import {
   followUserController,
   unfollowUserController,
 } from "../Controllers/follows";
-import { checkIfBlock, extractTargetUserFromParams } from "../Middleware/block";
-
 export function configureFollows(app: Application) {
   app.post("/users/:userId/follows", [
     validation(
