@@ -33,13 +33,19 @@ export const updateCommentController = async (req: Request, res: Response) => {
     userId: req.body.loggedUser.userId,
   };
   const result = await updateCommentService(postId, commentId, req.body);
+  res.status(result.status).json({
+    success: result.success,
+    message: result.message,
+    payload: result.payload,
+  });
 };
 export const getAllCommentsController = async (req: Request, res: Response) => {
   const { postId } = req.params;
-  const comments = await getAllCommentsService(postId);
-  res.status(202).json({
-    success: true,
-    message: "comments fetched succesfully",
-    payload: { comments },
+  const userId = req.body.loggedUser.userId;
+  const result = await getAllCommentsService(postId, userId);
+  res.status(result.status).json({
+    success: result.success,
+    message: result.message,
+    payload: result.payload,
   });
 };
