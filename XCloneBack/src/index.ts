@@ -3,9 +3,13 @@ import { configureRoutes } from "./Routes";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { errorMiddleware } from "./Middleware/error";
+import { createServer } from "node:http";
+import { setUpSocketServer } from "./socket";
 
 dotenv.config();
 const app = express();
+const server = createServer(app);
+setUpSocketServer(server);
 app.use(express.json());
 
 configureRoutes(app);
@@ -18,7 +22,7 @@ if (connectionMongodb !== undefined) {
       console.log("connected successfully to the mongodb database");
 
       const port = process.env.PORT || 3000;
-      app.listen(port, () => {
+      server.listen(port, () => {
         console.log(`listening on localhost:${port}`);
       });
     })

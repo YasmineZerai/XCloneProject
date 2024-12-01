@@ -17,6 +17,6 @@ export default function configureAuth(app: Application) {
     ),
     loginController,
   ]);
-  // app.post('/register', [validation()])
+
   app.post("/logout", [authMiddleware]);
 }
