@@ -1,3 +1,4 @@
+import { findBlock } from "../Database/blocks";
 import {
   createPost,
   deletePost,
@@ -40,16 +41,31 @@ export async function createPostService(args: CreatePostArgs) {
     payload: { createdPost },
   };
 }
-
+//TODO: fix this service with queries
 export async function listPostsService() {
   return await listPosts();
 }
 
-export async function getPostService(postId: string): Promise<Post | null> {
-  return await getPostById(postId);
+export async function getPostService(postId: string, userId: string) {
+  const post = await getPostById(postId);
+  if (!post) return { status: 404, message: "post not found", success: false };
+  const postOwner = post.postedBy as string;
+  const existingBlock = await findBlock(postOwner, userId);
+  if (existingBlock)
+    if (!post)
+      return {
+        status: 403,
+        message: "cannot get post, blocked user",
+        success: false,
+      };
+  return {
+    status: 201,
+    message: "post fetched successfully",
+    success: true,
+    payload: { post },
+  };
 }
 export async function deletePostService(postId: string, userId: string) {
-  // return await deletePost(postId);
   const existingPost = await getPostById(postId);
   if (!existingPost)
     return { status: 404, succes: false, message: "post not found" };
@@ -68,7 +84,6 @@ export async function updatePostService(
   postId: string,
   userId: string
 ) {
-  // return await updatePosts(args, postId);
   const existingPost = await getPostById(postId);
   if (!existingPost)
     return { status: 404, message: "post not found", success: false };

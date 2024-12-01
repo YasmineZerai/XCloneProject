@@ -38,19 +38,13 @@ export const listPostsController = async (req: Request, res: Response) => {
 
 export const getPostController = async (req: Request, res: Response) => {
   const { postId } = req.params;
-  const post = await getPostService(postId);
-  if (post == null) {
-    res.status(404).json({
-      sucess: false,
-      message: "no posts with this id babes",
-    });
-  } else {
-    res.status(201).json({
-      succes: true,
-      message: "post fetched successfully",
-      payload: { post },
-    });
-  }
+  const userId = req.body.loggedUser.userId;
+  const result = await getPostService(postId, userId);
+  res.status(result.status).json({
+    success: result.success,
+    message: result.message,
+    payload: result.payload,
+  });
 };
 
 export const deletePostController = async (req: Request, res: Response) => {
