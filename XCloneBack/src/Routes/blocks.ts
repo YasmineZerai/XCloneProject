@@ -4,7 +4,10 @@ import { z } from "zod";
 import mongoose from "mongoose";
 import { authMiddleware } from "../Middleware/auth";
 
-import { blockUserController } from "../Controllers/blocks";
+import {
+  blockUserController,
+  unblockUserController,
+} from "../Controllers/blocks";
 import { errorMiddleware } from "../Middleware/error";
 
 export function configureBlocks(app: Application) {
@@ -36,5 +39,6 @@ export function configureBlocks(app: Application) {
       })
     ),
     authMiddleware,
+    unblockUserController,
   ]);
 }

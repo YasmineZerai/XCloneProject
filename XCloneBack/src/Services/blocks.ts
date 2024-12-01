@@ -1,4 +1,9 @@
-import { blockUser, findBlock } from "../Database/blocks";
+import {
+  blockUser,
+  findBlock,
+  findBlocked,
+  unblockUser,
+} from "../Database/blocks";
 
 export async function blockUserService(userId: string, targetUserId: string) {
   if (userId === targetUserId)
@@ -19,6 +24,22 @@ export async function blockUserService(userId: string, targetUserId: string) {
     success: true,
     status: 201,
     message: "user blocked successfully",
+    payload: { block },
+  };
+}
+export async function unblockUserService(userId: string, targetUserId: string) {
+  const existingBlock = await findBlocked(userId, targetUserId);
+  if (!existingBlock)
+    return {
+      success: false,
+      status: 404,
+      message: "user already not blocked",
+    };
+  const block = await unblockUser(userId, targetUserId);
+  return {
+    success: true,
+    status: 201,
+    message: "user unblocked successfully",
     payload: { block },
   };
 }

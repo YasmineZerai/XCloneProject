@@ -8,6 +8,18 @@ export async function findBlock(userOne: string, userTwo: string) {
     ],
   });
 }
+export async function findBlocked(userId: string, targetUserId: string) {
+  return await BlocksModel.findOne({
+    blocked: targetUserId,
+    blockedBy: userId,
+  });
+}
 export async function blockUser(blockedBy: string, blocked: string) {
   return await BlocksModel.create({ blocked: blocked, blockedBy: blockedBy });
+}
+export async function unblockUser(blockedBy: string, blocked: string) {
+  return await BlocksModel.findOneAndDelete({
+    blocked: blocked,
+    blockedBy: blockedBy,
+  });
 }
