@@ -24,7 +24,6 @@ export function configureFollows(app: Application) {
       })
     ),
     authMiddleware,
-    checkIfBlock(extractTargetUserFromParams),
     followUserController,
     errorMiddleware,
   ]);
@@ -41,7 +40,6 @@ export function configureFollows(app: Application) {
       })
     ),
     authMiddleware,
-    checkIfBlock(extractTargetUserFromParams),
     unfollowUserController,
     errorMiddleware,
   ]);
