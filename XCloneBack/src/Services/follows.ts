@@ -1,3 +1,4 @@
+import { findBlock } from "../Database/blocks";
 import { followUser, getFollowerById, unfollowUser } from "../Database/follows";
 import { getUserById } from "../Database/users";
 
@@ -11,6 +12,13 @@ export async function followUserService(following: string, follower: string) {
   const followingUser = await getUserById(following);
   if (!followingUser)
     return { success: false, status: 404, message: "no user with this id" };
+  const existingBlock = await findBlock(following, follower);
+  if (existingBlock)
+    return {
+      success: false,
+      status: 403,
+      message: "Cannot follow account, blocked user",
+    };
   const existingFollow = await getFollowerById(follower, following);
   if (existingFollow)
     return {
@@ -36,6 +44,13 @@ export async function unfollowUserService(following: string, follower: string) {
   const followingUser = await getUserById(following);
   if (!followingUser)
     return { success: false, status: 404, message: "no user with this id" };
+  const existingBlock = await findBlock(following, follower);
+  if (existingBlock)
+    return {
+      success: false,
+      status: 403,
+      message: "Cannot unfollow account, blocked user",
+    };
   const existingFollow = await getFollowerById(follower, following);
   if (!existingFollow)
     return {
