@@ -6,6 +6,7 @@ import { authMiddleware } from "../Middleware/auth";
 import { errorMiddleware } from "../Middleware/error";
 import {
   followUserController,
+  listFollowersController,
   unfollowUserController,
 } from "../Controllers/follows";
 export function configureFollows(app: Application) {
@@ -39,4 +40,5 @@ export function configureFollows(app: Application) {
     authMiddleware,
     unfollowUserController,
   ]);
+  app.get("/followers", [authMiddleware, listFollowersController]);
 }

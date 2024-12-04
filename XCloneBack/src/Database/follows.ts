@@ -34,3 +34,9 @@ export async function unfollowUser(followerId: string, followingId: string) {
   });
   return follow;
 }
+export async function listFollowers(userId: string) {
+  const followers = await followsModel
+    .find({ following: userId })
+    .populate("follower", "-password");
+  return followers.map((follow) => follow.follower);
+}

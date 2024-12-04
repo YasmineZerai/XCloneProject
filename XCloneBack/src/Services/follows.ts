@@ -1,5 +1,10 @@
 import { findBlock } from "../Database/blocks";
-import { followUser, getFollowerById, unfollowUser } from "../Database/follows";
+import {
+  followUser,
+  getFollowerById,
+  listFollowers,
+  unfollowUser,
+} from "../Database/follows";
 import { getUserById } from "../Database/users";
 
 export async function followUserService(following: string, follower: string) {
@@ -65,4 +70,7 @@ export async function unfollowUserService(following: string, follower: string) {
     message: "user unfollowed successfully",
     payload: { follow },
   };
+}
+export async function listFollowersService(userId: string) {
+  return await listFollowers(userId);
 }
