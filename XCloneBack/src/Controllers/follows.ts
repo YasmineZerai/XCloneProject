@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   followUserService,
   listFollowersService,
+  listFollowingsService,
   unfollowUserService,
 } from "../Services/follows";
 
@@ -28,6 +29,15 @@ export const unfollowUserController = async (req: Request, res: Response) => {
 export const listFollowersController = async (req: Request, res: Response) => {
   const userId = req.body.loggedUser.userId;
   const payload = await listFollowersService(userId);
+  res.status(201).json({
+    success: true,
+    message: "followers fetched successfully",
+    payload: { payload },
+  });
+};
+export const listFollowingsController = async (req: Request, res: Response) => {
+  const userId = req.body.loggedUser.userId;
+  const payload = await listFollowingsService(userId);
   res.status(201).json({
     success: true,
     message: "followers fetched successfully",

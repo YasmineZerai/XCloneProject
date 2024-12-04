@@ -3,6 +3,7 @@ import {
   followUser,
   getFollowerById,
   listFollowers,
+  listFollowings,
   unfollowUser,
 } from "../Database/follows";
 import { getUserById } from "../Database/users";
@@ -73,4 +74,7 @@ export async function unfollowUserService(following: string, follower: string) {
 }
 export async function listFollowersService(userId: string) {
   return await listFollowers(userId);
+}
+export async function listFollowingsService(userId: string) {
+  return await listFollowings(userId);
 }
